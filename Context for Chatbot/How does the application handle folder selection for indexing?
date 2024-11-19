@@ -1,0 +1,3 @@
+Question: How does the application handle folder selection for indexing?
+Answer: The application uses a GTK4 file chooser dialog (folder_selected_callback) to let users select a directory. It then indexes the documents in the chosen folder.
+Keywords: folder selection, GTK4, file chooser, indexing, directory.

@@ -1,0 +1,5 @@
+Question: How are admin IDs generated dynamically in the database?
+Answer: Admin IDs are generated using a trigger generate_admin_id, which appends a sequence value and a character from the admin name.
+Keywords: admins table, generate_admin_id trigger, admin_sequence, dynamic ID
+
+

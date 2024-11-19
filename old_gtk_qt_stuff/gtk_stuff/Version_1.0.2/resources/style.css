@@ -1,0 +1,138 @@
+/* Global styles */
+window {
+    background: rgba(0, 0, 0, 0.95);
+    color: white;
+}
+
+box {
+    background: rgba(30, 30, 30, 0.7);
+    border-radius: 15px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+entry {
+    background: rgba(40, 40, 40, 0.6);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    padding: 8px;
+    margin: 5px 0;
+    min-height: 40px;
+}
+
+entry:focus {
+    background: rgba(50, 50, 50, 0.8);
+    box-shadow: 0 0 0 2px rgba(130, 170, 255, 0.5);
+}
+
+button {
+    background: rgba(50, 50, 50, 0.6);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    padding: 10px;
+    margin: 5px 0;
+    min-height: 40px;
+    transition: all 200ms ease;
+}
+
+button:hover {
+    background: rgba(70, 70, 70, 0.8);
+    transform: translateY(-1px);
+}
+
+button.suggested-action {
+    background: linear-gradient(45deg, #4a90e2, #67b26f);
+    color: white;
+}
+
+button.suggested-action:hover {
+    background: linear-gradient(45deg, #5aa0f2, #77c27f);
+    box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+}
+
+label.title-2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.error-label {
+    color: #ff6b6b;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.splash-window {
+    background: transparent;
+}
+
+.role-button {
+    min-height: 60px;
+    min-width: 200px;
+    border-radius: 30px;
+    background: linear-gradient(145deg, #4a90e2, #67b26f);
+    color: white;
+    font-size: 18px;
+    margin: 10px;
+    transition: all 300ms ease;
+}
+
+.role-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 15px rgba(74, 144, 226, 0.3);
+}
+
+.profile-table {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 20px;
+}
+
+.profile-table row {
+    padding: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.profile-label {
+    font-weight: bold;
+    color: #4a90e2;
+}
+
+
+/* Animation classes */
+@keyframes slide-up {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-entry {
+    animation: slide-up 300ms ease-out;
+}
+
+.stack-switcher {
+    background: transparent;
+}
+
+/* Message dialog styling */
+dialog {
+    background: rgba(30, 30, 30, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: white;
+}
+
+dialog headerbar {
+    background: transparent;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.animate-entry {
+    transition: all 200ms ease-in-out;
+}
+
+.animate-entry:focus {
+    transform: scale(1.02);
+}

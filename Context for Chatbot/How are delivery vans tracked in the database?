@@ -1,0 +1,3 @@
+Question: How are delivery vans tracked in the database?
+Answer: The delivery_vans table records each van’s availability, next available time, capacity, and current location.
+Keywords: delivery_vans table, availability, capacity, location

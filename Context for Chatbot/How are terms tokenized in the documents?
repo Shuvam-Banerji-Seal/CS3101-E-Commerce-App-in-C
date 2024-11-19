@@ -1,0 +1,3 @@
+Question: How are terms tokenized in the documents?
+Answer: Terms are tokenized using the tokenize function, which splits text into words based on whitespace and common punctuation marks, and converts them to lowercase.
+Keywords: tokenize, text processing, split, lowercase, punctuation. 

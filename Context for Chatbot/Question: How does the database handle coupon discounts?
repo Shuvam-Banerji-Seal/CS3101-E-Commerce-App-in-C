@@ -1,0 +1,3 @@
+Question: How does the database handle coupon discounts?
+Answer: The coupons table stores coupon codes, discount types (percentage or fixed), values, validity dates, and usage limits. Constraints ensure valid discount types.
+Keywords: coupons table, discount type, usage limit, validity, percentage, fixed

@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/cstest.dir/cstest_autogen/mocs_compilation.cpp.o CMakeFiles/cstest.dir/src/main.cpp.o CMakeFiles/cstest.dir/src/MainWindow.cpp.o -o cstest  /usr/lib/libQt6Widgets.so.6.7.3 /usr/lib/libQt6Gui.so.6.7.3 /usr/lib/libQt6Core.so.6.7.3 /usr/lib/libGLX.so /usr/lib/libOpenGL.so

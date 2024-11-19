@@ -1,0 +1,3 @@
+Question: What is the role of the calculate_idf_values function?
+Answer: This function calculates the Inverse Document Frequency (IDF) for terms by determining how often a term appears across all indexed documents. It assigns higher weights to less common terms.
+Keywords: IDF, term frequency, weight calculation, documents, indexing.

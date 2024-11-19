@@ -1,0 +1,3 @@
+Question: What information does the orders table capture?
+Answer: The orders table records user orders, including payment and delivery statuses, total amounts, associated addresses, and timestamps.
+Keywords: orders table, user_id, status, payment_status, total_amount, delivery

@@ -1,0 +1,3 @@
+Question: What happens in the index_documents function?
+Answer: The index_documents function reads all files from a specified directory, tokenizes their contents, calculates term frequencies for each file, and stores these details in the docs array.
+Keywords: indexing, document processing, directory reading, term frequency.

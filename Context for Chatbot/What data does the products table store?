@@ -1,0 +1,3 @@
+Question: What data does the products table store?
+Answer: The products table contains information about products, including name, description, price, stock, SKU, discounts, ratings, categories, and timestamps for creation and updates.
+Keywords: products table, product details, price, stock, discount, SKU, ratings

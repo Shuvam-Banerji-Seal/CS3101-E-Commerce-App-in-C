@@ -1,0 +1,3 @@
+Question: What is the purpose of the to_lower function in the code?
+Answer: The to_lower function converts all characters in a string to lowercase. This standardization helps in case-insensitive comparisons and token normalization during text processing.
+Keywords: string, lowercase, normalization, tokenization.

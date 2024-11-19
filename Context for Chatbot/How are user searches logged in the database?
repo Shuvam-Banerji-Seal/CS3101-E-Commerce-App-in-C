@@ -1,0 +1,3 @@
+Question: How are user searches logged in the database?
+Answer: The product_search_log table logs user search terms, results count, and timestamps, with a foreign key linking to the users table.
+Keywords: search log, product_search_log, search term, results count, timestamp

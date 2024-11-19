@@ -1,0 +1,3 @@
+Question: What does the GTK interface facilitate in this application?
+Answer: The GTK interface provides a graphical user interface for users to input search queries, view ranked search results, and display document contents. It includes search functionality and a file chooser dialog for indexing.
+Keywords: GTK, user interface, search query, file chooser, results display.

@@ -1,0 +1,3 @@
+Question: What is the role of the cart table?
+Answer: The cart table links users to products they intend to purchase, recording product quantities and the last modified timestamp.
+Keywords: cart table, user_id, product_id, quantity, last_modified

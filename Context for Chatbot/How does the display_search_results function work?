@@ -1,0 +1,4 @@
+Question: How does the display_search_results function work?
+Answer: This function formats and prints the sorted search results, showing details like filename, BM25 score, document length, and top terms for each document.
+Keywords: search results, display, formatting, BM25, document details.
+

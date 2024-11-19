@@ -1,0 +1,3 @@
+Question: What is the purpose of the users table in the database schema?
+Answer: The users table stores user information such as username, password hash, email, phone number, default address, and verification statuses. It also tracks account creation and last login timestamps.
+Keywords: users table, username, password_hash, email, phone_verified, last_login, created_at

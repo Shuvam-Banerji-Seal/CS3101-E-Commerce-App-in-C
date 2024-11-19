@@ -1,0 +1,3 @@
+Question: How does the database ensure address entries are associated with valid users?
+Answer: The addresses table uses a foreign key user_id referencing the users table, with a BEFORE INSERT trigger to enforce the constraint.
+Keywords: addresses table, foreign key, user_id, trigger, constraint

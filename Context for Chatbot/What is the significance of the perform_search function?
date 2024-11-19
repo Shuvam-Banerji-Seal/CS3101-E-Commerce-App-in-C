@@ -1,0 +1,4 @@
+Question: What is the significance of the perform_search function?
+Answer: The perform_search function retrieves the user's search query, calculates BM25 scores for documents, sorts them by relevance, and updates the results display in the interface.
+Keywords: search, BM25 scores, query processing, result sorting, display update.
+

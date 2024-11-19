@@ -1,0 +1,3 @@
+Question: How are search results sorted in the application?
+Answer: Search results are sorted using the compare_docs function, which compares documents based on their BM25 scores in descending order to prioritize the most relevant documents.
+Keywords: sorting, relevance, BM25 score, compare, document ranking.

@@ -1,0 +1,5 @@
+/home/shuvam/Semester_05/CS_project/build/CMakeFiles/cstest.dir
+/home/shuvam/Semester_05/CS_project/build/CMakeFiles/edit_cache.dir
+/home/shuvam/Semester_05/CS_project/build/CMakeFiles/rebuild_cache.dir
+/home/shuvam/Semester_05/CS_project/build/CMakeFiles/cstest_autogen_timestamp_deps.dir
+/home/shuvam/Semester_05/CS_project/build/CMakeFiles/cstest_autogen.dir
