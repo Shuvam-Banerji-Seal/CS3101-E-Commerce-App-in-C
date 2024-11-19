@@ -71,7 +71,7 @@ bool verify_admin(const char *username, const char *password) {
     }
 
     // Debug: Print the username we're looking for... Remove later
-    printf("DEBUG: Searching for username: '%s'\n", username);
+    //printf("DEBUG: Searching for username: '%s'\n", username);
 
     
     if (sqlite3_bind_text(stmt, 1, username, -1, SQLITE_STATIC) != SQLITE_OK) {
@@ -81,16 +81,16 @@ bool verify_admin(const char *username, const char *password) {
     }
 
     // Debug: Print the SQL statement
-    printf("DEBUG: SQL statement: %s\n", sql);
+    //printf("DEBUG: SQL statement: %s\n", sql);
 
     // Execute the query and get the result
     int step_result = sqlite3_step(stmt);
     
     // Debug: Print step result
-    printf("DEBUG: Step result: %d (SQLITE_ROW=%d)\n", step_result, SQLITE_ROW);
+   // printf("DEBUG: Step result: %d (SQLITE_ROW=%d)\n", step_result, SQLITE_ROW);
 
     if (step_result != SQLITE_ROW) {
-        printf("DEBUG: No user found or error occurred\n");
+      //  printf("DEBUG: No user found or error occurred\n");
         sqlite3_finalize(stmt);
         return false;
     }
@@ -98,20 +98,20 @@ bool verify_admin(const char *username, const char *password) {
     // Get the stored password hash
     const unsigned char *stored_password = sqlite3_column_text(stmt, 0);
     if (!stored_password) {
-        printf("DEBUG: Stored password is NULL\n");
+       // printf("DEBUG: Stored password is NULL\n");
         sqlite3_finalize(stmt);
         return false;
     }
 
     // Debug: Print the passwords being compared
     // need to add more debug because nothing seems to work
-    printf("DEBUG: Comparing passwords:\n");
-    printf("DEBUG: Input password: '%s'\n", password);
-    printf("DEBUG: Stored password: '%s'\n", stored_password);
+    // printf("DEBUG: Comparing passwords:\n");
+    // printf("DEBUG: Input password: '%s'\n", password);
+    // printf("DEBUG: Stored password: '%s'\n", stored_password);
 
     // check those paaaasssswords
     bool matches = (strcmp(password, (const char *)stored_password) == 0);
-    printf("DEBUG: Password match result: %d\n", matches);
+   // printf("DEBUG: Password match result: %d\n", matches);
     
     // Cleanning
     sqlite3_finalize(stmt);
@@ -135,7 +135,7 @@ bool verify_user(const char *username, const char *password) {
     }
 
     // Debug: Print the username we're looking for
-    printf("DEBUG: Searching for username: '%s'\n", username);
+    //printf("DEBUG: Searching for username: '%s'\n", username);
 
     // Bind the username parameter
     if (sqlite3_bind_text(stmt, 1, username, -1, SQLITE_STATIC) != SQLITE_OK) {
@@ -145,16 +145,16 @@ bool verify_user(const char *username, const char *password) {
     }
 
     // Debug: Print the SQL statement
-    printf("DEBUG: SQL statement: %s\n", sql);
+   // printf("DEBUG: SQL statement: %s\n", sql);
 
     // Execute the query and get the result
     int step_result = sqlite3_step(stmt);
     
     // Debug: Print step result
-    printf("DEBUG: Step result: %d (SQLITE_ROW=%d)\n", step_result, SQLITE_ROW);
+   // printf("DEBUG: Step result: %d (SQLITE_ROW=%d)\n", step_result, SQLITE_ROW);
 
     if (step_result != SQLITE_ROW) {
-        printf("DEBUG: No user found or error occurred\n");
+        //printf("DEBUG: No user found or error occurred\n");
         sqlite3_finalize(stmt);
         return false;
     }
@@ -162,20 +162,20 @@ bool verify_user(const char *username, const char *password) {
     // Get the stored password hash
     const unsigned char *stored_password = sqlite3_column_text(stmt, 0);
     if (!stored_password) {
-        printf("DEBUG: Stored password is NULL\n");
+     //   printf("DEBUG: Stored password is NULL\n");
         sqlite3_finalize(stmt);
         return false;
     }
 
     // Debug: Print the passwords being compared
     // need to add more debug because nothing seems to work
-    printf("DEBUG: Comparing passwords:\n");
-    printf("DEBUG: Input password: '%s'\n", password);
-    printf("DEBUG: Stored password: '%s'\n", stored_password);
+    // printf("DEBUG: Comparing passwords:\n");
+    // printf("DEBUG: Input password: '%s'\n", password);
+    // printf("DEBUG: Stored password: '%s'\n", stored_password);
 
     // check those paaaasssswords
     bool matches = (strcmp(password, (const char *)stored_password) == 0);
-    printf("DEBUG: Password match result: %d\n", matches);
+    //printf("DEBUG: Password match result: %d\n", matches);
     
     // Cleanning
     sqlite3_finalize(stmt);

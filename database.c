@@ -736,36 +736,43 @@ bool set_default_address(int user_id, int address_id) {
 
 // the randomizer isn't working sadly
 
+// bool is_van_available(const char *delivery_time) {
+//     //if (!db || !delivery_time) return false;
+//     if (!db) return false;
+//     // Seed random number generator
+//     srand(time(NULL));
+    
+//     // 30% chance that no van is available
+//     int random_chance = rand() % 100;
+//     if (random_chance < 30) {
+//         return false;
+//     }
+    
+//     sqlite3_stmt *stmt;
+//     const char *sql = "SELECT COUNT(*) FROM delivery_vans "
+//                      "WHERE is_available = 1 AND "
+//                      "(next_available IS NULL OR next_available <= datetime(?));";
+    
+//     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK) {
+//         return false;
+//     }
+    
+//     sqlite3_bind_text(stmt, 1, delivery_time, -1, SQLITE_STATIC);
+//     bool available = false;
+    
+//     if (sqlite3_step(stmt) == SQLITE_ROW) {
+//         available = sqlite3_column_int(stmt, 0) > 0;
+//     }
+    
+//     sqlite3_finalize(stmt);
+//     return available;
+// }
+
+
 bool is_van_available(const char *delivery_time) {
-    //if (!db || !delivery_time) return false;
-    if (!db) return false;
-    // Seed random number generator
-    srand(time(NULL));
-    
-    // 30% chance that no van is available
-    int random_chance = rand() % 100;
-    if (random_chance < 30) {
-        return false;
-    }
-    
-    sqlite3_stmt *stmt;
-    const char *sql = "SELECT COUNT(*) FROM delivery_vans "
-                     "WHERE is_available = 1 AND "
-                     "(next_available IS NULL OR next_available <= datetime(?));";
-    
-    if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK) {
-        return false;
-    }
-    
-    sqlite3_bind_text(stmt, 1, delivery_time, -1, SQLITE_STATIC);
-    bool available = false;
-    
-    if (sqlite3_step(stmt) == SQLITE_ROW) {
-        available = sqlite3_column_int(stmt, 0) > 0;
-    }
-    
-    sqlite3_finalize(stmt);
-    return available;
+    (void)delivery_time; // Suppress unused parameter warning
+    srand(time(NULL)); // Seed the random number generator
+    return rand() % 2; // Return true or false randomly
 }
 
 bool update_van_availability(int van_id, bool is_available, const char *next_available) {

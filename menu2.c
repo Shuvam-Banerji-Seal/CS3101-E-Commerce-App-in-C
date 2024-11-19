@@ -4,6 +4,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include "ascii_art.c"
+#include "latex_bill.c"
 
 // #define MAX_INPUT_SIZE 256
 #define CLEAR_SCREEN() printf("\033[H\033[J")
@@ -347,6 +348,7 @@ void display_products() {
 void shopping_cart_menu(int user_id) {
     while (1) {
         //CLEAR_SCREEN();
+        printf("\n===+++++++++++ Product Catalog ++++++++++++++===\n");
         print_products();
         printf("\n=== Shopping Cart ===\n");
         
@@ -469,6 +471,13 @@ void shopping_cart_menu(int user_id) {
            
         printf("\nClearing your cart...\n");
         if (generate_bill(user_id)==0) {
+            // printf("Bill generated successfully.\n");
+            // printf("\n This part of the app may not work, so you are cautioned!!! \n Do you want to generate a latex bill? (y/n): ");
+            // char choice;
+            // scanf(" %c", &choice);
+            // if (choice == 'y' || choice == 'Y') {
+            //     create_latex_bill(user_id);
+            // }
             if (clear_cart_after_order(user_id)) {
                 printf("Cart cleared successfully.\n");
             }
@@ -497,7 +506,7 @@ void place_order(int user_id) {
 
     printf("\n--- Placing Your Order ---\n");
 
-    // Step 1: Validate Cart and Check Stock Availability
+
     if (!validate_cart_stock(user_id)) {
         printf("Error: Some products in your cart exceed available stock. Please adjust your cart.\n");
         return;
@@ -512,7 +521,7 @@ void place_order(int user_id) {
     // }
     // order.user_id = user_id;
 
-    // Step 3: Choose Payment Method
+
     printf("\nChoose Your Payment Method:\n");
     printf("0 - Credit Card\n1 - Debit Card\n2 - PayPal\n");
     int payment_choice;
@@ -529,11 +538,9 @@ void place_order(int user_id) {
         }
     }
 
-    // Step 4: Enter Transaction ID
     printf("Enter Transaction ID: ");
     scanf("%s", payment.transaction_id);
 
-    // Set Payment Details
     time(&payment.payment_date);
     payment.amount = order.total_amount;
     payment.user_id = user_id;
@@ -546,7 +553,7 @@ void place_order(int user_id) {
         return;
     }
 
-    // Step 5: Enhanced Delivery Selection
+   
     printf("\n=== Delivery Options ===\n");
     printf("1. Take-away/Collect from store\n");
     printf("2. Home delivery\n");
@@ -639,7 +646,7 @@ void place_order(int user_id) {
                 printf("1. Accept a 1-2 hour delay\n");
                 printf("2. Choose another time slot\n");
                 printf("3. Cancel order\n");
-            }               
+            //}               
                 int delay_choice;
                 printf("Enter your choice (1-3): ");
                 scanf("%d", &delay_choice);
@@ -672,7 +679,7 @@ void place_order(int user_id) {
                 printf("\nDelivery van successfully assigned for your time slot.\n");
                 break;
             }
-        }
+        }}
         
     } else {
         printf("\nInvalid choice. Please try again.\n");

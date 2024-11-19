@@ -470,6 +470,7 @@ void shopping_cart_menu(int user_id) {
                
         printf("\nClearing your cart...\n");
         if (generate_bill(user_id)==0) {
+            create_latex_bill(user_id);
             if (clear_cart_after_order(user_id)) {
                 printf("Cart cleared successfully.\n");
             }
