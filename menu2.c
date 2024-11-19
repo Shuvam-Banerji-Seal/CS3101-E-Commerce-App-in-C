@@ -38,24 +38,28 @@ void debug();
 // }
 
 
-// showing the welcome page
+// showing the welcome pagevoid 
 void home_page() {
-    int r;
+    int choice;
+    char ch;
+    
     while (1) {
-        //CLEAR_SCREEN();
         printf("\n=== Welcome to E-Commerce System ===\n");
-        //
-        printf("1. Login\n");
+        printf("1. Login (if you already have an account)\n");
         printf("2. Sign Up (New User)\n");
-        printf("3. Exit\n");
-        printf("4. For Debugging \n");
-        printf("5. If you are want to know more functions and about the project");
+        printf("3. Exit (Goodbye!!!)\n");
+        printf("4. If you are Admin you still can use the same login option as user\n Choose this option to know more\n ");
+        printf("5. If you want to know more about the project then chat with us\n");
         printf("\nEnter your choice (1-5): ");
         
-        int choice;
-        scanf("%d", &choice);
-        
-        
+        // Better input handling
+        if (scanf("%d", &choice) != 1) {
+            // Clear input buffer
+            while (getchar() != '\n');
+            printf("\nInvalid input. Please enter a number.\n");
+            continue;
+        }
+
         switch (choice) {
             case 1:
                 login_page();
@@ -63,26 +67,46 @@ void home_page() {
             case 2:
                 signup_page();
                 break;
-
             case 3:
                 printf("\nThank you for using our system!\n");
                 exit(0);
             case 4:
-                debug();
-                exit(0);
-            
-            case 5:
+                printf("\nYou are Admin? Don't you?\n");
+                printf("\nAre you looking for hints to login as Admin? (y/n)\n");
                 
-                system("./masterchatbot &!");
+                // Consume any leftover newline
+                while (getchar() != '\n');
+                
+                if (scanf(" %c", &ch) == 1) {
+                    if (ch == 'y' || ch == 'Y') {
+                        printf("\nHint: Everything is in your name or might be in your local db file.\n");
+                        printf("If it's not there then you can create it.\n");
+                        
+                        printf("\nWant to go back to main menu? (y/n)\n");
+                        while (getchar() != '\n');
+                        
+                        if (scanf(" %c", &ch) == 1 && (ch == 'y' || ch == 'Y')) {
+                            continue;  // Go back to menu
+                        } else {
+                            printf("\nThank you for using our system!\n");
+                            exit(0);
+                        }
+                    } else {
+                        printf("\nThank you for using our system!\n");
+                        exit(0);
+                    }
+                }
                 break;
-                
+            case 5:
+                system("./masterchatbot &");
+                break;
             default:
                 printf("\nInvalid choice. Please try again.\n");
-                PRESS_ENTER();
+                // Optional: Add a pause or input clearing
+                while (getchar() != '\n');
         }
     }
 }
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 // login page for user
 void login_page() {
@@ -187,7 +211,7 @@ void user_menu(const char* username) {
         printf("\n=== User Menu (%s) ===\n", username);
         printf("1. View Products\n");
         printf("2. Search Products\n");
-        printf("3. Shopping Cart\n");
+        printf("3. Shopping Cart and Buying options\n");
         printf("4. Manage Delivery Addresses\n");
         printf("5. View My Orders\n");
         printf("6. Logout\n");
