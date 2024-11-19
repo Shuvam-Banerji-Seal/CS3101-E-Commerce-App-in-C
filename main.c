@@ -8,7 +8,7 @@
 
 
 void main()
-{       initializer25();
+{       initializer25();//this is for creating the words.txt file
         if (!init_database()) {
         printf("Database initialization failed. Exiting.\n");
         return; // Exit the program if the database cannot be initialized
