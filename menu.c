@@ -35,7 +35,7 @@ void debug();
 void home_page() {
     int r;
     while (1) {
-        //CLEAR_SCREEN();
+        CLEAR_SCREEN();
         printf("\n=== Welcome to E-Commerce System ===\n");
         //
         printf("1. Login\n");
@@ -79,7 +79,7 @@ void home_page() {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 // login page for user
 void login_page() {
-    //CLEAR_SCREEN();
+    CLEAR_SCREEN();
     char username[MAX_INPUT_SIZE];
     char password[MAX_INPUT_SIZE];
     
@@ -176,7 +176,7 @@ void user_menu(const char* username) {
     }
 
     while (1) {
-        //CLEAR_SCREEN();
+        CLEAR_SCREEN();
         printf("\n=== User Menu (%s) ===\n", username);
         printf("1. View Products\n");
         printf("2. Search Products\n");
@@ -222,7 +222,7 @@ void debug() {
 
 void admin_menu(const char* username) {
     while (1) {
-        //CLEAR_SCREEN();
+        CLEAR_SCREEN();
         printf("\n=== Admin Menu (%s) ===\n", username);
         printf("1. Manage Products\n");
         printf("2. View All Orders\n");
@@ -314,7 +314,7 @@ void print_products(void) {
     free(products);
 }
 void display_products() {
-    //CLEAR_SCREEN();
+    CLEAR_SCREEN();
     printf("\n=== Product Catalog ===\n");
     
     Product* products;
@@ -340,7 +340,7 @@ void display_products() {
 
 void shopping_cart_menu(int user_id) {
     while (1) {
-        //CLEAR_SCREEN();
+        CLEAR_SCREEN();
         print_products();
         printf("\n=== Shopping Cart ===\n");
         
@@ -721,7 +721,7 @@ void place_order(int user_id) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void checkout_process(int user_id) {
-    //CLEAR_SCREEN();
+    CLEAR_SCREEN();
     printf("\n=== Checkout Process ===\n");
     
     // Get delivery preference
@@ -813,7 +813,7 @@ void checkout_process(int user_id) {
 
 void manage_order_menu() {
     while (1) {
-        //CLEAR_SCREEN();
+        CLEAR_SCREEN();
         printf("\n=== Manage Orders ===\n");
         printf("1. View All Orders\n");
         printf("2. Update Order Status\n");
@@ -1022,7 +1022,7 @@ void search_products_menu(bool is_admin) {
 
 void manage_address_menu(int user_id) {
     while (1) {
-        //CLEAR_SCREEN();
+        CLEAR_SCREEN();
         printf("\n=== Manage Delivery Addresses ===\n");
         
         Address* addresses;
@@ -1125,7 +1125,7 @@ void manage_address_menu(int user_id) {
 }
 
 void view_orders_menu(int user_id, bool is_admin) {
-    //CLEAR_SCREEN();
+    CLEAR_SCREEN();
     printf("\n=== %s Orders ===\n", is_admin ? "All" : "My");
     
     Order* orders;
@@ -1158,7 +1158,7 @@ void view_orders_menu(int user_id, bool is_admin) {
 
 void manage_categories_menu() {
     while (1) {
-        //CLEAR_SCREEN();
+        CLEAR_SCREEN();
         printf("\n=== Manage Categories ===\n");
         
         Category* categories;
@@ -1248,7 +1248,7 @@ void manage_categories_menu() {
 
 void manage_products_menu() {
     while (1) {
-        //CLEAR_SCREEN();
+        CLEAR_SCREEN();
         printf("\n=== Manage Products ===\n");
         printf("1. Add New Product\n");
         printf("2. Update Product\n");
