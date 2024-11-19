@@ -491,22 +491,22 @@ void place_order(int user_id) {
 
     printf("\n--- Placing Your Order ---\n");
 
-    // Step 1: Validate Cart and Check Stock Availability
+    //Validate Cart and Check Stock Availability
     if (!validate_cart_stock(user_id)) {
         printf("Error: Some products in your cart exceed available stock. Please adjust your cart.\n");
         return;
     }
 
-    // Step 2: Convert Cart to Order
-    // status = cart_to_order(&order, user_id);
-    // printf("Cart to Order Status: %s\n", (status ? "Success" : "Failed"));
-    // if (!status) {
-    //     printf("Error: Unable to process your cart. Please try again.\n");
-    //     return;
-    // }
-    // order.user_id = user_id;
+    
+    status = cart_to_order(&order, user_id);
+    printf("Cart to Order Status: %s\n", (status ? "Success" : "Failed"));
+    if (!status) {
+        printf("Error: Unable to process your cart. Please try again.\n");
+        return;
+    }
+    order.user_id = user_id;
 
-    // Step 3: Choose Payment Method
+    //  Choose Payment Method
     printf("\nChoose Your Payment Method:\n");
     printf("0 - Credit Card\n1 - Debit Card\n2 - PayPal\n");
     int payment_choice;
@@ -523,7 +523,7 @@ void place_order(int user_id) {
         }
     }
 
-    // Step 4: Enter Transaction ID
+
     printf("Enter Transaction ID: ");
     scanf("%s", payment.transaction_id);
 
@@ -540,7 +540,7 @@ void place_order(int user_id) {
         return;
     }
 
-    // Step 5: Enhanced Delivery Selection
+    // : Enhanced Delivery Selection
     printf("\n=== Delivery Options ===\n");
     printf("1. Take-away/Collect from store\n");
     printf("2. Home delivery\n");
@@ -551,6 +551,7 @@ void place_order(int user_id) {
     
     if (delivery_choice == 1) {
         order.delivery_type = DELIVERY_TAKEAWAY;
+        return;
     } else if (delivery_choice == 2) {  // Home delivery
         order.delivery_type = DELIVERY_HOME;
         

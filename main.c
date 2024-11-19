@@ -10,6 +10,7 @@
 void main()
 {       initializer25();//this is for creating the words.txt file
         extract_words_from_db_to_file();//this is for creating the words.txt file
+        //team_name();
         if (!init_database()) {
         printf("Database initialization failed. Exiting.\n");
         return; // Exit the program if the database cannot be initialized

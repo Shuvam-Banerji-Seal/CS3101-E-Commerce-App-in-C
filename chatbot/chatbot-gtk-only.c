@@ -1,3 +1,4 @@
+#include <gtk/gtk.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -10,61 +11,15 @@
 #define MAX_FILENAME 256
 #define MAX_LINE 10240
 #define MAX_QUERY 256
-#define K1 0.6// These choice of values can be adjusted
+#define K1 0.6
 #define B 1.0
-// BTW the above choice of parameters are based on a recent study I did for TREC on ToT queries and found that these are 
-// in most cases a better choice for vague queries.
 
-//Command to execute gcc `pkg-config --cflags gtk4 libadwaita-1` bm25gtk_copy.c -o bm25neogtk `pkg-config --libs gtk4 libadwaita-1` -lm
-
-//btw I am using codeium to generate a lot of the comments so that it helps in the understanding of the code
-
-//all function declarations
-// Function to convert string to lowercase
-void to_lower(char* str);
-
-// Function to check if a term exists in IDF values
-double get_idf(const char* term);
-
-// Function to tokenize text
-char** tokenize(char* text, int* num_tokens);
-
-// Function to calculate average document length
-double get_avg_doc_length();
-
-// Function to calculate document frequencies and IDF values separately
-void calculate_idf_values();
-
-// Function to index documents in the given directory
-void index_documents(const char* directory);
-
-// Function to calculate BM25 score
-void calculate_bm25_scores(const char* query);
-
-// Corrected comparison function for sorting documents by score
-int compare_docs(const void* a, const void* b);
-
-// Modified display function to show all results
-void display_search_results(const char* directory);
-
-// Function to display file content
-void display_file_content(const char* filename, const char* directory);
-
-// Function to save file list
-void save_file_list(const char* directory);
-
-
-
-
-
-
-// Structure to store term frequency in a document
+// Structure definitions
 typedef struct {
     char* term;
     int freq;
 } TermFreq;
 
-// Structure to store document information
 typedef struct {
     char filename[MAX_FILENAME];
     TermFreq* terms;
@@ -73,16 +28,54 @@ typedef struct {
     double score;
 } Document;
 
-// Structure to store IDF values
 typedef struct {
     char* term;
     double idf;
 } IDFEntry;
 
+// Global variables
 Document docs[MAX_FILES];
 IDFEntry idf_values[MAX_TERMS];
 int num_docs = 0;
 int num_terms = 0;
+
+// GTK widgets
+GtkWidget *window;
+GtkWidget *search_entry;
+GtkWidget *results_text_view;
+GtkTextBuffer *results_buffer;
+GtkWidget *file_content_text_view;
+GtkTextBuffer *file_content_buffer;
+char current_directory[MAX_FILENAME];
+
+// Function declarations (keeping the existing BM25 functions)
+void to_lower(char* str);
+double get_idf(const char* term);
+char** tokenize(char* text, int* num_tokens);
+double get_avg_doc_length();
+void calculate_idf_values();
+void index_documents(const char* directory);
+void calculate_bm25_scores(const char* query);
+int compare_docs(const void* a, const void* b);
+
+// // GTK-specific function declarations
+// static void activate(GtkApplication *app, gpointer user_data);
+// static void perform_search(GtkWidget *widget, gpointer data);
+// static void show_file_content(const char *filename);
+// static void on_result_clicked(GtkGestureClick *gesture, int n_press, double x, double y, gpointer user_data);
+
+// Add these declarations at the top of the file, after the existing declarations
+// Currently I have no idea why am I adding these 
+static void folder_selected_callback(GObject *source_object,
+                                   GAsyncResult *result,
+                                   gpointer user_data);
+static void perform_search(GtkWidget *widget, gpointer data);
+static void show_file_content(const char *filename);
+static void on_result_clicked(GtkGestureClick *gesture, int n_press, double x, double y, gpointer user_data);
+static void activate(GtkApplication *app, gpointer user_data);
+
+
+
 
 // Function to convert string to lowercase like ofcourse
 void to_lower(char* str) {
@@ -127,7 +120,7 @@ double get_avg_doc_length() {
 }
 
 
-// Modified function to calculate document frequencies and IDF values separately
+
 void calculate_idf_values() {
     // Reset existing IDF values
     num_terms = 0;
@@ -171,12 +164,11 @@ void calculate_idf_values() {
         
         // Calculate IDF using the correct document frequency
         idf_values[i].idf = log((num_docs + 1.0) / (doc_freq + 0.5));
-        // I still have confusion as okapi suggests no +0.5, but while looking up at differnet papers people tend to use different values as the constants
+                // I still have confusion as okapi suggests no +0.5, but while looking up at differnet papers people tend to use different values as the constants
+
     }
 }
 
-
-//added debug printfsass
 void index_documents(const char* directory) {
     DIR* dir = opendir(directory);
     if(dir == NULL) {
@@ -194,7 +186,7 @@ void index_documents(const char* directory) {
         char filepath[MAX_FILENAME];
         snprintf(filepath, sizeof(filepath), "%s/%s", directory, entry->d_name);
         
-        // Try to open the file
+
         FILE* file = fopen(filepath, "r");
         if(file == NULL) continue;
         
@@ -262,7 +254,6 @@ void index_documents(const char* directory) {
 }
 
 
-
 void calculate_bm25_scores(const char* query) {
     int num_query_terms;
     char** query_terms = tokenize(strdup(query), &num_query_terms);
@@ -275,7 +266,7 @@ void calculate_bm25_scores(const char* query) {
     }
     printf("\n");
     
-    // Initialize all scores to 0
+    //set all scores to 0
     for(int i = 0; i < num_docs; i++) {
         docs[i].score = 0.0;
     }
@@ -302,16 +293,17 @@ void calculate_bm25_scores(const char* query) {
             printf("Debug: Term '%s': tf=%.2f, idf=%.4f\n", 
                    query_terms[j], tf, idf);
             
-            // Prevent division by zero
+         
             if(doc_length == 0) doc_length = 1.0;
             if(avg_doc_length == 0) avg_doc_length = 1.0;
+            
             
             if(tf > 0.0) {  // Remove idf check to include all matching terms
                 double numerator = tf * (K1 + 1.0);
                 double denominator = tf + K1 * (1.0 - B + B * (doc_length / avg_doc_length));
                 double term_score = 0.0;
                 
-                // Prevent division by zero
+   
                 if(denominator > 0.0) {
                     term_score = idf * (numerator / denominator);
                 }
@@ -336,7 +328,6 @@ void calculate_bm25_scores(const char* query) {
     free(query_terms);
 }
 
-// Corrected comparison function for sorting documents by score
 int compare_docs(const void* a, const void* b) {
     double score_a = ((const Document*)a)->score;
     double score_b = ((const Document*)b)->score;
@@ -346,7 +337,7 @@ int compare_docs(const void* a, const void* b) {
     return 0;
 }
 
-// a better printf designfor displaying the outputs
+
 void display_search_results(const char* directory) {
     printf("\nSearch Results:\n");
     printf("----------------------------------------\n");
@@ -364,8 +355,7 @@ void display_search_results(const char* directory) {
         printf("   Document length: %d terms\n", docs[i].total_terms);
         printf("   Unique terms: %d\n", docs[i].num_terms);
         
-        // Show top contributing terms (up to 5) 
-        // or that was the plan... I still can't debug the error why it sometimes just lists all the files
+        // Show top contributing terms (up to 5)
         printf("   Top terms: ");
         int terms_to_show = docs[i].num_terms < 5 ? docs[i].num_terms : 5;
         for(int j = 0; j < terms_to_show; j++) {
@@ -381,7 +371,6 @@ void display_search_results(const char* directory) {
 
 
 // Function to display file content
-// This needs a gtk version
 void display_file_content(const char* filename, const char* directory) {
     char filepath[MAX_FILENAME];
     snprintf(filepath, sizeof(filepath), "%s/%s", directory, filename);
@@ -403,62 +392,215 @@ void display_file_content(const char* filename, const char* directory) {
     fclose(file);
 }
 
+// Implement the callback function before activate()...... no idea why it doesn't works in the other case
+// there is some IC99 rules error... but I believe it should have been warnings..
+static void folder_selected_callback(GObject *source_object,
+                                   GAsyncResult *result,
+                                   gpointer user_data) {
+    GtkFileDialog *dialog = GTK_FILE_DIALOG(source_object);
+    GFile *folder = gtk_file_dialog_select_folder_finish(dialog, result, NULL);
+    
+    if (folder != NULL) {
+        char *folder_path = g_file_get_path(folder);
+        strncpy(current_directory, folder_path, MAX_FILENAME - 1);
+        g_free(folder_path);
+        g_object_unref(folder);
+        
+        // Index documents
+        index_documents(current_directory);
+        
+      
+        char info_text[256];
+        snprintf(info_text, sizeof(info_text), "Successfully indexed %d documents\nReady for search.", num_docs);
+        gtk_text_buffer_set_text(results_buffer, info_text, -1);
+    }
+    
+    g_object_unref(dialog);
+}
+
+// the master activate function
+static void activate(GtkApplication *app, gpointer user_data) {
+    // main window
+    window = gtk_application_window_new(app);
+    gtk_window_set_title(GTK_WINDOW(window), "BM25 Search");
+    gtk_window_set_default_size(GTK_WINDOW(window), 800, 600);
+
+    //  main vertical box
+    GtkWidget *main_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+    gtk_window_set_child(GTK_WINDOW(window), main_box);
+
+    //search box
+    GtkWidget *search_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
+    gtk_box_append(GTK_BOX(main_box), search_box);
+
+    //  search entry
+    search_entry = gtk_entry_new();
+    gtk_entry_set_placeholder_text(GTK_ENTRY(search_entry), "Enter search query...");
+    gtk_box_append(GTK_BOX(search_box), search_entry);
+
+    // search button
+    GtkWidget *search_button = gtk_button_new_with_label("Search");
+    g_signal_connect(search_button, "clicked", G_CALLBACK(perform_search), NULL);
+    gtk_box_append(GTK_BOX(search_box), search_button);
+
+    // paned container for results and file content
+    GtkWidget *paned = gtk_paned_new(GTK_ORIENTATION_HORIZONTAL);
+    gtk_box_append(GTK_BOX(main_box), paned);
+    gtk_widget_set_vexpand(paned, TRUE);
+
+    // scrolled window for results ... works best in gnome... NOT HYPRLAND
+    GtkWidget *results_scroll = gtk_scrolled_window_new();
+    gtk_paned_set_start_child(GTK_PANED(paned), results_scroll);
+    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(results_scroll),
+                                 GTK_POLICY_AUTOMATIC,
+                                 GTK_POLICY_AUTOMATIC); //not scrollable in horizontal tiling
+
+    // results text view
+    results_text_view = gtk_text_view_new();
+    gtk_text_view_set_editable(GTK_TEXT_VIEW(results_text_view), FALSE);
+    gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW(results_text_view), FALSE);
+    gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(results_text_view), GTK_WRAP_WORD_CHAR);
+    gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(results_scroll), results_text_view);
+
+    // Add click gesture to results text view
+    // Idk but in xmls there's an option to set keyboard presses... #NOTE to read
+    GtkGesture *click = gtk_gesture_click_new();
+    gtk_gesture_single_set_button(GTK_GESTURE_SINGLE(click), GDK_BUTTON_PRIMARY);
+    g_signal_connect(click, "pressed", G_CALLBACK(on_result_clicked), NULL);
+    gtk_widget_add_controller(results_text_view, GTK_EVENT_CONTROLLER(click));
+
+    results_buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(results_text_view));
+
+    // scrolled window for file content
+    GtkWidget *content_scroll = gtk_scrolled_window_new();
+    gtk_paned_set_end_child(GTK_PANED(paned), content_scroll);
+    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(content_scroll),
+                                 GTK_POLICY_AUTOMATIC,
+                                 GTK_POLICY_AUTOMATIC);
+
+    //file content text view
+    file_content_text_view = gtk_text_view_new();
+    gtk_text_view_set_editable(GTK_TEXT_VIEW(file_content_text_view), FALSE);
+    gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW(file_content_text_view), FALSE);
+    gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(file_content_text_view), GTK_WRAP_WORD_CHAR);
+    gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(content_scroll), file_content_text_view);
+
+    file_content_buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(file_content_text_view));
+
+    // Show the window
+    gtk_window_present(GTK_WINDOW(window));
+
+    // Create and show the directory chooser dialog using modern GTK4 API
+    GtkFileDialog *dialog = gtk_file_dialog_new();
+    gtk_file_dialog_set_title(dialog, "Select Directory");
+    gtk_file_dialog_set_modal(dialog, TRUE);
+
+    // Set initial folder
+    GFile *initial_folder = g_file_new_for_path(g_get_home_dir());
+    gtk_file_dialog_set_initial_folder(dialog, initial_folder);
+    g_object_unref(initial_folder);
+
+    // Select folder asynchronously
+    gtk_file_dialog_select_folder(dialog, 
+                                GTK_WINDOW(window),
+                                NULL,  // cancellable
+                                folder_selected_callback,
+                                NULL); // user_data
+}
 
 
-// more debugs
-int main() {
-    char directory[MAX_FILENAME];
-    printf("Enter the directory path containing text files: ");
-    if(scanf("%s", directory) != 1) {
-        printf("Error reading directory path\n");
-        return 1;
+// Modified perform_search function with correct GTK4 entry text retrieval
+static void perform_search(GtkWidget *widget, gpointer data) {
+    const char *query = gtk_editable_get_text(GTK_EDITABLE(search_entry));
+    
+    if (strlen(query) == 0) {
+        gtk_text_buffer_set_text(results_buffer, "Please enter a search query", -1);
+        return;
     }
-    getchar();  // Consume newline
-    
-    printf("Indexing documents...\n");
-    index_documents(directory);
-    
-    if(num_docs == 0) {
-        printf("No documents found in the specified directory.\n");
-        return 1;
+
+    calculate_bm25_scores(query);
+    qsort(docs, num_docs, sizeof(Document), compare_docs);
+
+    // Format and display results
+    GString *results_text = g_string_new("");
+    g_string_append(results_text, "Search Results:\n");
+    g_string_append(results_text, "----------------------------------------\n\n");
+
+    for (int i = 0; i < num_docs; i++) {
+        char doc_info[1024];
+        snprintf(doc_info, sizeof(doc_info),
+                "%d. %s\nScore: %.4f\nDocument length: %d terms\nUnique terms: %d\n\n",
+                i + 1, docs[i].filename, docs[i].score,
+                docs[i].total_terms, docs[i].num_terms);
+        g_string_append(results_text, doc_info);
     }
-    //huaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaah
-    printf("Successfully indexed %d documents\n", num_docs);
+
+    gtk_text_buffer_set_text(results_buffer, results_text->str, -1);
+    g_string_free(results_text, TRUE);
+}
+
+static void show_file_content(const char *filename) {
+    char filepath[MAX_FILENAME];
+    snprintf(filepath, sizeof(filepath), "%s/%s", current_directory, filename);
     
-    while(1) {
-        char query[MAX_QUERY];
-        printf("\nEnter your search query (or 'quit' to exit): ");
-        if(!fgets(query, sizeof(query), stdin)) {
-            printf("Error reading query\n");
-            continue;
-        }
-        query[strcspn(query, "\n")] = 0;  // Remove newline
-        
-        if(strcmp(query, "quit") == 0) break;
-        
-        calculate_bm25_scores(query);
-        qsort(docs, num_docs, sizeof(Document), compare_docs);
-        display_search_results(directory);
-        
-        // Handle document viewing
-        int num_results = num_docs < 10 ? num_docs : 10;
-        if(num_results > 0) {
-            printf("\nEnter document number to view (1-%d) or 0 to search again: ", num_results);
-            int selection;
-            if(scanf("%d", &selection) != 1) {
-                printf("Invalid input\n");
-                getchar();  // Clear input buffer
-                continue;
-            }
-            getchar();  // Consume newline
-            
-            if(selection > 0 && selection <= num_results) {
-                display_file_content(docs[selection-1].filename, directory);
-            }
-        }
+    FILE *file = fopen(filepath, "r");
+    if (file == NULL) {
+        gtk_text_buffer_set_text(file_content_buffer, "Error opening file", -1);
+        return;
+    }
+
+    char *content = NULL;
+    size_t content_size = 0;
+    FILE *temp = open_memstream(&content, &content_size);
+    
+    char line[MAX_LINE];
+    while (fgets(line, sizeof(line), file)) {
+        fputs(line, temp);
     }
     
-    // Cleanup very much needed... ngl w/o it, I might have a bg running in the background
+    fclose(temp);
+    fclose(file);
+
+    gtk_text_buffer_set_text(file_content_buffer, content, -1);
+    free(content);
+}
+
+static void on_result_clicked(GtkGestureClick *gesture, int n_press, double x, double y, gpointer user_data) {
+    GtkTextIter iter;
+    int buffer_x, buffer_y;
+    
+    // Convert coordinates to buffer position
+    gtk_text_view_window_to_buffer_coords(GTK_TEXT_VIEW(results_text_view),
+                                        GTK_TEXT_WINDOW_WIDGET,
+                                        x, y,
+                                        &buffer_x, &buffer_y);
+    
+    gtk_text_view_get_iter_at_location(GTK_TEXT_VIEW(results_text_view),
+                                     &iter,
+                                     buffer_x, buffer_y);
+    
+    // Get the line number
+    int line = gtk_text_iter_get_line(&iter);
+    
+    // Each document entry takes 5 lines (title, score, length, terms, blank line)
+    // a bit inconsistent on wayland... screen tearing issues... not my fault I guess
+    int doc_index = line / 5;
+    
+    if (doc_index < num_docs) {
+        show_file_content(docs[doc_index].filename);
+    }
+}
+
+int main(int argc, char *argv[]) {
+    GtkApplication *app;
+    int status;
+
+    app = gtk_application_new("org.example.chatbot", G_APPLICATION_DEFAULT_FLAGS);
+    g_signal_connect(app, "activate", G_CALLBACK(activate), NULL);
+    status = g_application_run(G_APPLICATION(app), argc, argv);
+    g_object_unref(app);
+
+    // Cleanup
     for(int i = 0; i < num_docs; i++) {
         for(int j = 0; j < docs[i].num_terms; j++) {
             free(docs[i].terms[j].term);
@@ -469,6 +611,6 @@ int main() {
     for(int i = 0; i < num_terms; i++) {
         free(idf_values[i].term);
     }
-    
-    return 0;
+
+    return status;
 }
