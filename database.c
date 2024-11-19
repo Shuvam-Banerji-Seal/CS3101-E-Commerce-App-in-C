@@ -4,6 +4,7 @@
 #include "cart.c"
 #include "search_bk.c"
 #include "other_functions.c"
+//#include "tokenizer.c"
 
 //bool search_products(sqlite3 *db, const char *search_term, ProductSearchResult **results, int *result_count) ;
 
@@ -1166,7 +1167,6 @@ bool check_if_in_cart(int product_id,int user_id){
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //Remember to make the Latex template for the bill
-
 int generate_bill(int user_id) {
     if (!db) {
         printf("Error: Database connection is not initialized.\n");
@@ -1207,7 +1207,6 @@ int generate_bill(int user_id) {
     //      "UPDATE orders SET bill_status = 1 WHERE order_id = ?;";
 
    // Print bill header with formatting
-
     printf("\n");
     printf("========================================\n");
     printf("              SALES BILL                \n");
@@ -1311,7 +1310,7 @@ int generate_bill(int user_id) {
     }
     sqlite3_finalize(stmt);
 
-    // Print the total amount
+    // Print totals
     printf("----------------------------------------\n");
     printf("%-52s $%-9.2f\n", "Grand Total:", grand_total);
     printf("========================================\n");
@@ -1356,7 +1355,6 @@ int generate_bill(int user_id) {
     printf("========================================\n\n");
     return 0;
 }
-
 
 //////////////////////////////////////////////////////////////////////////////////////
 

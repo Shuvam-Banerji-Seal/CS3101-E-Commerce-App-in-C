@@ -1,10 +1,11 @@
-#include "database.c"
-#include "menu.c"
+
+#include "menu2.c"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
 #include "ascii_art.c"
+//#include "other_functions.c"
 
 
 void main()

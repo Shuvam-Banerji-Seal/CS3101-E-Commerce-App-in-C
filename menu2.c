@@ -1,4 +1,3 @@
-
 #include "database.c"
 #include <stdio.h>
 #include <stdlib.h>
@@ -42,7 +41,7 @@ void debug();
 void home_page() {
     int r;
     while (1) {
-        CLEAR_SCREEN();
+        //CLEAR_SCREEN();
         printf("\n=== Welcome to E-Commerce System ===\n");
         //
         printf("1. Login\n");
@@ -73,7 +72,7 @@ void home_page() {
             
             case 5:
                 
-                system("./bm25-gtk &!");
+                system("./masterchatbot &!");
                 break;
                 
             default:
@@ -86,7 +85,7 @@ void home_page() {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 // login page for user
 void login_page() {
-    CLEAR_SCREEN();
+    //CLEAR_SCREEN();
     char username[MAX_INPUT_SIZE];
     char password[MAX_INPUT_SIZE];
     
@@ -157,11 +156,11 @@ void signup_page() {
     }
 
     //
-    printf("DEBUG: About to sign up with:\n");
-    printf("Username: '%s'\n", username);
-    printf("Password: '%s'\n", password);
-    printf("Email: '%s'\n", email);
-    printf("Phone: '%s'\n", phone);
+    // printf("DEBUG: About to sign up with:\n");
+    // printf("Username: '%s'\n", username);
+    // printf("Password: '%s'\n", password);
+    // printf("Email: '%s'\n", email);
+    // printf("Phone: '%s'\n", phone);
 
     // Attempt to create the user
     if (user_signup(username, password, email, phone)) {
@@ -278,7 +277,7 @@ void print_products(void) {
         return;
     }
     
-    // Print header
+
     printf("\n%-6s | %-30s | %-50s | %-10s | %-8s | %-12s | %-20s | %-20s\n",
            "ID", "Name", "Description", "Price", "Stock", "Category", "Created", "Updated");
     printf("%.*s\n", 170, "--------------------------------------------------------------------------------"
@@ -289,20 +288,20 @@ void print_products(void) {
     for (int i = 0; i < count; i++) {
         Product *prod = &products[i];
         
-        // Convert timestamps to readable format
+        // Convert timestamps to readable format..... a failed attempt
         char created_str[20] = {0};
         char updated_str[20] = {0};
         strftime(created_str, sizeof(created_str), "%Y-%m-%d %H:%M", localtime(&prod->created_at));
         strftime(updated_str, sizeof(updated_str), "%Y-%m-%d %H:%M", localtime(&prod->updated_at));
         
-        // Truncate description if too long
+       
         char desc_truncated[51] = {0};
         strncpy(desc_truncated, prod->description, 47);
         if (strlen(prod->description) > 47) {
             strcat(desc_truncated, "...");
         }
         
-        // Print product information
+  
         printf("%-6d | %-30.30s | %-50s | $%-9.2f | %-8d | %-12d | %-20s | %-20s\n",
                prod->product_id,
                prod->name,
@@ -317,11 +316,11 @@ void print_products(void) {
     // Print footer with total count
     printf("\nTotal active products: %d\n\n", count);
     
-    // Free the products array
+
     free(products);
 }
 void display_products() {
-    CLEAR_SCREEN();
+    //CLEAR_SCREEN();
     printf("\n=== Product Catalog ===\n");
     
     Product* products;
@@ -347,7 +346,7 @@ void display_products() {
 
 void shopping_cart_menu(int user_id) {
     while (1) {
-        CLEAR_SCREEN();
+        //CLEAR_SCREEN();
         print_products();
         printf("\n=== Shopping Cart ===\n");
         
@@ -464,10 +463,10 @@ void shopping_cart_menu(int user_id) {
                 break;
             }
             case 4:
-            
+                //checkout_process(user_id);
                 place_order(user_id);
                 //generate_bill(user_id);
-               
+           
         printf("\nClearing your cart...\n");
         if (generate_bill(user_id)==0) {
             if (clear_cart_after_order(user_id)) {
@@ -487,229 +486,6 @@ void shopping_cart_menu(int user_id) {
     }
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-// void place_order(int user_id) {
-//     Order order = {0};
-//     Payment payment = {0};
-//     int status;
-//     char selected_time[20] = {0};
-//     int selected_address_id = 0;
-
-//     printf("\n--- Placing Your Order ---\n");
-
-//     //Validate Cart and Check Stock Availability
-//     if (!validate_cart_stock(user_id)) {
-//         printf("Error: Some products in your cart exceed available stock. Please adjust your cart.\n");
-//         return;
-//     }
-
-    
-//     status = cart_to_order(&order, user_id);
-//     printf("Cart to Order Status: %s\n", (status ? "Success" : "Failed"));
-//     if (!status) {
-//         printf("Error: Unable to process your cart. Please try again.\n");
-//         return;
-//     }
-//     order.user_id = user_id;
-
-//     //  Choose Payment Method
-//     printf("\nChoose Your Payment Method:\n");
-//     printf("0 - Credit Card\n1 - Debit Card\n2 - PayPal\n");
-//     int payment_choice;
-//     while (true) {
-//         printf("Enter your choice: ");
-//         scanf("%d", &payment_choice);
-//         if (payment_choice == PAYMENT_CREDIT_CARD ||
-//             payment_choice == PAYMENT_DEBIT_CARD ||
-//             payment_choice == PAYMENT_PAYPAL) {
-//             payment.method = payment_choice;
-//             break;
-//         } else {
-//             printf("Invalid choice. Please try again.\n");
-//         }
-//     }
-
-
-//     printf("Enter Transaction ID: ");
-//     scanf("%s", payment.transaction_id);
-
-//     // Set Payment Details
-//     time(&payment.payment_date);
-//     payment.amount = order.total_amount;
-//     payment.user_id = user_id;
-
-//     // Create Payment
-//     status = create_payment(&payment);
-//     printf("Payment Status: %s\n", (status ? "Success" : "Failed"));
-//     if (!status) {
-//         printf("Error: Payment failed. Please try again.\n");
-//         return;
-//     }
-
-//     // : Enhanced Delivery Selection
-//     printf("\n=== Delivery Options ===\n");
-//     printf("1. Take-away/Collect from store\n");
-//     printf("2. Home delivery\n");
-//     printf("\nEnter your choice (1-2): ");
-    
-//     int delivery_choice;
-//     scanf("%d", &delivery_choice);
-    
-//     if (delivery_choice == 1) {
-//         order.delivery_type = DELIVERY_TAKEAWAY;
-//         return;
-//     } else if (delivery_choice == 2) {  // Home delivery
-//         order.delivery_type = DELIVERY_HOME;
-        
-//         // Get user addresses
-//         Address* addresses;
-//         int count;
-//         if (!get_user_addresses(user_id, &addresses, &count)) {
-//             printf("\nError: Unable to fetch addresses. Please add an address first.\n");
-//             return;
-//         }
-        
-//         if (count == 0) {
-//             printf("\nNo delivery addresses found. Please add an address first.\n");
-//             manage_address_menu(user_id);
-
-//         get_user_addresses(user_id, &addresses, &count);
-//         }
-        
-//         // Display addresses
-//         printf("\nAvailable Delivery Addresses:\n");
-//         printf("ID | Address Line | City | Postal Code | Country\n");
-//         printf("----+---------------------------------+--------------+-------------+---------\n");
-//         for (int i = 0; i < count; i++) {
-//             printf("%-4d| %-32s | %-12s | %-11s | %s\n",
-//                    addresses[i].address_id,
-//                    addresses[i].address_line,
-//                    addresses[i].city,
-//                    addresses[i].postal_code,
-//                    addresses[i].country);
-//         }
-        
-//         // Select address
-//         printf("\nEnter Address ID for delivery: ");
-//         scanf("%d", &selected_address_id);
-//         order.address_id = selected_address_id;
-        
-   
-//     // }
-//         // Select time slot
-//         int slot_choice;
-//         while (1) {
-//             // printf("\nEnter your preferred time slot (1-%d): ", 
-//             //        (int)(sizeof(DEFAULT_TIME_SLOTS)/sizeof(TimeSlot)));
-//             // scanf("%d", &slot_choice);
-            
-//             // if (slot_choice < 1 || slot_choice > sizeof(DEFAULT_TIME_SLOTS)/sizeof(TimeSlot)) {
-//             //     printf("\nInvalid time slot selection. Please try again.\n");
-//             //     continue;
-//             // }
-//             // printf("Dealivery Time Slot: %s\n", DEFAULT_TIME_SLOTS[slot_choice - 1].time_slot);
-//             // // Now check van availability for the selected time slot
-//             // if (!is_van_available(DEFAULT_TIME_SLOTS[slot_choice - 1].time_slot)) {
-//             //     printf("\nSorry, no delivery vans are available for this time slot.\n");
-//             //     printf("Would you like to:\n");
-//             //     printf("1. Accept a 1-2 hour delay\n");
-//             //     printf("2. Choose another time slot\n");
-//             //     printf("3. Cancel order\n");
-//             // Print available time slots
-
-//             printf("\nAvailable Time Slots:\n");
-//             for (int i = 0; i < sizeof(DEFAULT_TIME_SLOTS) / sizeof(TimeSlot); i++) {
-//                 printf("%d. %s\n", i + 1, DEFAULT_TIME_SLOTS[i].time_slot);
-//             }
-
-//             printf("\nEnter your preferred time slot (1-%d): ", 
-//                 (int)(sizeof(DEFAULT_TIME_SLOTS) / sizeof(TimeSlot)));
-//             scanf("%d", &slot_choice);
-
-//             if (slot_choice < 1 || slot_choice > sizeof(DEFAULT_TIME_SLOTS) / sizeof(TimeSlot)) {
-//                 printf("\nInvalid time slot selection. Please try again.\n");
-//                 continue;
-//             }
-
-//             printf("Chosen Delivery Time Slot: %s\n", DEFAULT_TIME_SLOTS[slot_choice - 1].time_slot);
-
-//             // Now check van availability for the selected time slot
-//             if (!is_van_available(DEFAULT_TIME_SLOTS[slot_choice - 1].time_slot)) {
-//                 printf("\nSorry, no delivery vans are available for this time slot.\n");
-//                 printf("Would you like to:\n");
-//                 printf("1. Accept a 1-2 hour delay\n");
-//                 printf("2. Choose another time slot\n");
-//                 printf("3. Cancel order\n");
-//             }               
-//                 int delay_choice;
-//                 printf("Enter your choice (1-3): ");
-//                 scanf("%d", &delay_choice);
-                
-//                 switch (delay_choice) {
-//                     case 1:
-//                         is_delivery_delayed = true;
-//                         strcpy(selected_time, DEFAULT_TIME_SLOTS[slot_choice - 1].time_slot);
-//                         order.delivery_time = strdup(selected_time);
-//                         order.is_delayed = true;
-//                         printf("\nOrder scheduled with potential delay.\n");
-//                         break;
-//                     case 2:
-//                         place_order(user_id);  // Go back to time slot selection
-//                     case 3:
-//                         printf("\nOrder cancelled. Please try again later.\n");
-//                         shopping_cart_menu(user_id);
-//                         break;
-//                     default:
-//                         printf("\nInvalid choice. Please try again.\n");
-//                         continue;
-//                 }
-                
-//                 if (delay_choice == 1) break;  // Proceed with delayed delivery
-//             else {
-//                 // Van is available, proceed normally
-//                 strcpy(selected_time, DEFAULT_TIME_SLOTS[slot_choice - 1].time_slot);
-//                 order.delivery_time = strdup(selected_time);
-//                 order.is_delayed = false;
-//                 printf("\nDelivery van successfully assigned for your time slot.\n");
-//                 break;
-//             }
-//         }
-        
-//     } else {
-//         printf("\nInvalid choice. Please try again.\n");
-//         return;
-//     }
-//     // Finalize Order Details
-//     time(&order.created_at);
-
-//     // Step 6: Create Order
-//     status = create_order(&order);
-//     printf("Order Creation Status: %s\n", (status ? "Success" : "Failed"));
-//     if (status) {
-//         printf("\nOrder placed successfully! Thank you for shopping with us.\n");
-        
-//         // Step 7: Update Stock of Products
-//         printf("\nUpdating product stock...\n");
-//         if (update_stock_after_order(user_id)) {
-//             printf("Product stock updated successfully.\n");
-            
-//             // Step 8: Update Product Active Status
-//             printf("Checking for inactive products...\n");
-//             if (update_product_active_status()) {
-//                 printf("Inactive products updated successfully.\n");
-//             } else {
-//                 printf("Warning: Some products could not be updated. Please check manually.\n");
-//             }
-//         } else {
-//             printf("Warning: Failed to update product stock. Please check manually.\n");
-//         }
-//     } else {
-//         printf("\nError: Order placement failed. Please contact support.\n");
-//     }
-// }
-
-// /*
 
 
 void place_order(int user_id) {
@@ -931,6 +707,11 @@ void place_order(int user_id) {
     }
 }
 
+/*
+
+
+
+*/
 
 
 
@@ -946,7 +727,7 @@ void place_order(int user_id) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void checkout_process(int user_id) {
-    CLEAR_SCREEN();
+    //CLEAR_SCREEN();
     printf("\n=== Checkout Process ===\n");
     
     // Get delivery preference
@@ -1038,7 +819,7 @@ void checkout_process(int user_id) {
 
 void manage_order_menu() {
     while (1) {
-        CLEAR_SCREEN();
+        //CLEAR_SCREEN();
         printf("\n=== Manage Orders ===\n");
         printf("1. View All Orders\n");
         printf("2. Update Order Status\n");
@@ -1247,7 +1028,7 @@ void search_products_menu(bool is_admin) {
 
 void manage_address_menu(int user_id) {
     while (1) {
-        CLEAR_SCREEN();
+        //CLEAR_SCREEN();
         printf("\n=== Manage Delivery Addresses ===\n");
         
         Address* addresses;
@@ -1350,7 +1131,7 @@ void manage_address_menu(int user_id) {
 }
 
 void view_orders_menu(int user_id, bool is_admin) {
-    CLEAR_SCREEN();
+    //CLEAR_SCREEN();
     printf("\n=== %s Orders ===\n", is_admin ? "All" : "My");
     
     Order* orders;
@@ -1383,7 +1164,7 @@ void view_orders_menu(int user_id, bool is_admin) {
 
 void manage_categories_menu() {
     while (1) {
-        CLEAR_SCREEN();
+        //CLEAR_SCREEN();
         printf("\n=== Manage Categories ===\n");
         
         Category* categories;
@@ -1675,3 +1456,16 @@ void manage_products_menu() {
     }
 }
 
+
+// void main()
+// {       initializer25();
+//         extract_words_from_db_to_file();
+//         if (!init_database()) {
+//         printf("Database initialization failed. Exiting.\n");
+//         return; // Exit the program if the database cannot be initialized
+//     }
+
+    
+//     home_page();
+
+// }
