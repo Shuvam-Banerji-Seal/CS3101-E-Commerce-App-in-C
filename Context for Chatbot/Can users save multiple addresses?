@@ -1,0 +1,4 @@
+Question: Can users save multiple addresses?
+Answer: Yes, users can save multiple addresses, which are stored in the addresses table and linked to the users table via user_id.
+
+Keywords: users, addresses, multiple

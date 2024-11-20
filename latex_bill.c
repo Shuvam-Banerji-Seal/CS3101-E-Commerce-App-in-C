@@ -20,11 +20,11 @@ int create_latex_bill(int user_id) {
     char city[100] = {0};
     char postal_code[20] = {0};
     char country[100] = {0};
-    int order_id = -1;
+    int order_id;
     double total_amount = 0.0;
     char order_date[50] = {0};
     int delivery_type = 0;
-    int payment_status = 0;
+    int payment_status = 1;
     int is_delayed = 0;
     char delivery_time[50] = {0};
 
@@ -43,7 +43,7 @@ int create_latex_bill(int user_id) {
         "orders.delivery_time "
         "FROM orders "
         "WHERE orders.user_id = ? AND orders.bill_status = 0 "
-        "ORDER BY orders.created_at DESC LIMIT 1;";
+        "ORDER BY orders.order_id DESC LIMIT 1;";
 
     const char *products_query =
         "SELECT products.name, products.price, cart.quantity, "

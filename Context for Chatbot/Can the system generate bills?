@@ -1,0 +1,4 @@
+Question: Can the system generate bills?
+Answer: Yes, bills are generated and stored in the bills table, linking them to orders and users.
+
+Keywords: bills, generation, table

@@ -207,7 +207,7 @@ void user_menu(const char* username) {
     }
 
     while (1) {
-        CLEAR_SCREEN();
+        //CLEAR_SCREEN();
         printf("\n=== User Menu (%s) ===\n", username);
         printf("1. View Products\n");
         printf("2. Search Products\n");
@@ -253,15 +253,16 @@ void debug() {
 
 void admin_menu(const char* username) {
     while (1) {
-        CLEAR_SCREEN();
+        //CLEAR_SCREEN();
         printf("\n=== Admin Menu (%s) ===\n", username);
         printf("1. Manage Products\n");
         printf("2. View All Orders\n");
         printf("3. Search Products\n");
         printf("4. Manage Categories\n");
-        printf("5. Logout\n");
+        printf("5. DEBUG using SQLite3 shell\n");
+        printf("6. Logout\n");
         
-        printf("\nEnter your choice (1-5): ");
+        printf("\nEnter your choice (1-6): ");
         int choice;
         scanf("%d", &choice);
         
@@ -279,6 +280,9 @@ void admin_menu(const char* username) {
                 manage_categories_menu();
                 break;
             case 5:
+                debug();
+                break;
+            case 6:
                 return;
             default:
                 printf("\nInvalid choice. Please try again.\n");
@@ -495,13 +499,13 @@ void shopping_cart_menu(int user_id) {
            
         printf("\nClearing your cart...\n");
         if (generate_bill(user_id)==0) {
-            // printf("Bill generated successfully.\n");
-            // printf("\n This part of the app may not work, so you are cautioned!!! \n Do you want to generate a latex bill? (y/n): ");
-            // char choice;
-            // scanf(" %c", &choice);
-            // if (choice == 'y' || choice == 'Y') {
-            //     create_latex_bill(user_id);
-            // }
+            printf("Bill generated successfully.\n");
+            printf("\n This part of the app may not work, so you are cautioned!!! \n Do you want to generate a latex bill? (y/n): ");
+            char choice;
+            scanf(" %c", &choice);
+            if (choice == 'y' || choice == 'Y') {
+                create_latex_bill(user_id);
+            }
             if (clear_cart_after_order(user_id)) {
                 printf("Cart cleared successfully.\n");
             }
@@ -1286,7 +1290,7 @@ void manage_categories_menu() {
 void manage_products_menu() {
 
     while (1) {
-        CLEAR_SCREEN();
+        //CLEAR_SCREEN();
         printf("\n=== Manage Products ===\n");
         printf("1. Add New Product\n");
         printf("2. Update Product\n");

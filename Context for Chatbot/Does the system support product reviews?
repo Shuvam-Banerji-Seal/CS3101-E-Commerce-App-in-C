@@ -1,0 +1,4 @@
+Question: Does the system support product reviews?
+Answer: Yes, users can leave product reviews, which are stored in the reviews table along with their ratings and optional comments.
+
+Keywords: reviews, products, ratings

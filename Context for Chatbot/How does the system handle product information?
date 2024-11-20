@@ -1,0 +1,4 @@
+Question: How does the system handle product information?
+Answer: Product information, including name, description, price, stock, and images, is stored in the products table. Additional details like ratings and categories are also managed here.
+
+Keywords: products, table, information

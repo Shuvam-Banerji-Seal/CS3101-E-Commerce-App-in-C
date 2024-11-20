@@ -1,0 +1,4 @@
+Question: How are product categories organized?
+Answer: Categories are stored in the categories table, which includes optional parent-child relationships for subcategories.
+
+Keywords: categories, subcategories, organization

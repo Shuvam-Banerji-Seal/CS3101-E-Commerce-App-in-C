@@ -1,0 +1,4 @@
+Question: What security measures are in place for the database?
+Answer: Security features include enforcing foreign key constraints, email verification, and hashed passwords stored in the users and admins tables.
+
+Keywords: security, foreign keys, hashed passwords

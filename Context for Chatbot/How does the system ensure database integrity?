@@ -1,0 +1,4 @@
+Question: How does the system ensure database integrity?
+Answer: Integrity is ensured using foreign key constraints, triggers for automated ID generation, and transactional queries.
+
+Keywords: database, integrity, constraints

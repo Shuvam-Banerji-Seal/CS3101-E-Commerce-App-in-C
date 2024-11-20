@@ -559,6 +559,7 @@ bool get_all_categorys(Category **categories, int *count){
         category->category_id=sqlite3_column_int(stmt,0);
        //strcpy( category->name,sqlite3_column_text(stmt,1));
         strcpy(category->name,(char *)sqlite3_column_text(stmt,1));
+        strcpy(category->description, (char *)sqlite3_column_text(stmt,2));
     }
     sqlite3_finalize(stmt);
     return true;
@@ -772,7 +773,8 @@ bool set_default_address(int user_id, int address_id) {
 bool is_van_available(const char *delivery_time) {
     (void)delivery_time; // Suppress unused parameter warning
     srand(time(NULL)); // Seed the random number generator
-    return rand() % 2; // Return true or false randomly
+
+    return rand() % 1; // Return true or false randomly
 }
 
 bool update_van_availability(int van_id, bool is_available, const char *next_available) {
@@ -1257,7 +1259,7 @@ int generate_bill(int user_id) {
     }
     sqlite3_bind_int(stmt, 1, user_id);
 
-    int order_id = -1;
+    int order_id ;
     if (sqlite3_step(stmt) == SQLITE_ROW) {
         order_id = sqlite3_column_int(stmt, 0);
         double total_amount = sqlite3_column_double(stmt, 1);

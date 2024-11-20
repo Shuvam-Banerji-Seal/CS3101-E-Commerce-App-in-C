@@ -1,0 +1,4 @@
+Question: How are admin users managed?
+Answer: Admin users are stored in the admins table. Unique admin IDs are generated using a sequence and trigger system.
+
+Keywords: admins, management, sequence

@@ -1,0 +1,4 @@
+Question: How are payments managed?
+Answer: Payment details are handled in the payments table, which includes the order ID, amount, payment method, and transaction status.
+
+Keywords: payments, table, management

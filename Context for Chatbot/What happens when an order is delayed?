@@ -1,0 +1,4 @@
+Question: What happens when an order is delayed?
+Answer: Delays are flagged in the orders table using the is_delayed column, and appropriate updates are recorded.
+
+Keywords: orders, delay, status

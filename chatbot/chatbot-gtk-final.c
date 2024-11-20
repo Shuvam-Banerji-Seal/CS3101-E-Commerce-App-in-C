@@ -512,7 +512,19 @@ static void on_select_folder_clicked(GtkWidget *widget, gpointer user_data) {
 // Function to  the welcome page
 static AdwNavigationPage* create_welcome_page() {
     status_page = adw_status_page_new();
-    adw_status_page_set_icon_name(ADW_STATUS_PAGE(status_page), "folder-symbolic");
+    adw_status_page_set_icon_name(ADW_STATUS_PAGE(status_page), "user-symbolic");
+//     // GdkTexture *texture = gdk_texture_new_from_file("/home/shuvam/codes/c_ir/org.example.bm25search.svg", NULL);
+//     GFile *file = g_file_new_for_path("/home/shuvam/codes/c_ir/org.example.bm25search.svg");
+// GdkTexture *texture = gdk_texture_new_from_file(file, NULL);
+// g_object_unref(file);  // Clean up the GFile object
+
+// GdkPaintable *paintable = GDK_PAINTABLE(texture);
+// adw_status_page_set_icon_name(ADW_STATUS_PAGE(status_page), paintable);
+// adw_status_page_set_custom_icon(ADW_STATUS_PAGE(status_page), GDK_PAINTABLE(texture));
+
+//g_object_unref(texture);
+
+
     adw_status_page_set_title(ADW_STATUS_PAGE(status_page), "Welcome to ECOM Chatbot");
     adw_status_page_set_description(ADW_STATUS_PAGE(status_page), 
         "Start by selecting a folder containing the documentation and FAQs, so that you can ask me questions");

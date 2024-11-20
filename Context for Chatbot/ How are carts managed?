@@ -1,0 +1,4 @@
+Question: How are carts managed?
+Answer: Users’ carts are managed in the cart table, which links products and their quantities to specific users.
+
+Keywords: carts, users, management

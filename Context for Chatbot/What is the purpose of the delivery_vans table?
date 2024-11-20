@@ -1,0 +1,4 @@
+Question: What is the purpose of the delivery_vans table?
+Answer: The delivery_vans table tracks the availability, capacity, and location of vans used for shipping orders.
+
+Keywords: delivery, vans, logistics
