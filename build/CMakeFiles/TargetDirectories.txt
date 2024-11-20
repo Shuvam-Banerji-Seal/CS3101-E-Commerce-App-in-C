@@ -1,4 +1,0 @@
-/home/shuvam/codes/CS3101-E-Commerce-App-in-C/build/CMakeFiles/masterchatbot.dir
-/home/shuvam/codes/CS3101-E-Commerce-App-in-C/build/CMakeFiles/main.dir
-/home/shuvam/codes/CS3101-E-Commerce-App-in-C/build/CMakeFiles/edit_cache.dir
-/home/shuvam/codes/CS3101-E-Commerce-App-in-C/build/CMakeFiles/rebuild_cache.dir
